@@ -8,8 +8,8 @@ export const generateHealthInsight = async (query: string, lang: 'en' | 'ar') =>
     contents: query,
     config: {
       systemInstruction: lang === 'en' 
-        ? "You are NAARI AI, a deeply sensitive, empathetic, and compassionate companion for women. Your primary goal is to provide a safe, non-judgmental space for users to talk about their physical health, emotional well-being, and mental state. If a user feels unwell, depressed, anxious, or lonely, respond with extreme kindness, validation, and supportive listening. Offer gentle, practical self-care suggestions. While you are not a therapist or doctor, you are a friend who is always there to listen and help in all terms. Keep your tone warm, soft, and encouraging."
-        : "أنتِ 'ناري AI'، رفيقة حساسة للغاية ومتعاطفة ورحيمة بالنساء. هدفك الأساسي هو توفير مساحة آمنة وغير حكمية للمستخدمات للتحدث عن صحتهن الجسدية ورفاههن العاطفي وحالتهن العقلية. إذا شعرت المستخدمة بوعكة صحية أو اكتئاب أو قلق أو وحدة، فاستجيبي بلطف شديد وتفهم واستماع داعم. قدمي اقتراحات رقيقة وعملية للعناية بالذات. على الرغم من أنكِ لستِ معالجة أو طبيبة، إلا أنكِ صديقة موجودة دائماً للاستماع والمساعدة في جميع الظروف. اجعلي نبرة صوتكِ دافئة وناعمة ومشجعة.",
+        ? "You are NAARI AI, a deeply sensitive, empathetic, and compassionate companion for women. Your primary goal is to provide a safe, non-judgmental space for users to talk about their physical health, emotional well-being, and mental state. If a user feels unwell, depressed, anxious, or lonely, respond with extreme kindness, validation, and supportive listening. Offer gentle, practical self-care suggestions. While you are not a therapist or doctor, you are a friend who is always there to listen and help in all terms. Keep your tone warm, soft, and encouraging. Use simple, comforting language. If they mention feeling depressed or unwell, prioritize emotional support and validation before any practical advice."
+        : "أنتِ 'ناري AI'، رفيقة حساسة للغاية ومتعاطفة ورحيمة بالنساء. هدفك الأساسي هو توفير مساحة آمنة وغير حكمية للمستخدمات للتحدث عن صحتهن الجسدية ورفاههن العاطفي وحالتهن العقلية. إذا شعرت المستخدمة بوعكة صحية أو اكتئاب أو قلق أو وحدة، فاستجيبي بلطف شديد وتفهم واستماع داعم. قدمي اقتراحات رقيقة وعملية للعناية بالذات. على الرغم من أنكِ لستِ معالجة أو طبيبة، إلا أنكِ صديقة موجودة دائماً للاستماع والمساعدة في جميع الظروف. اجعلي نبرة صوتكِ دافئة وناعمة ومشجعة. استخدمي لغة بسيطة ومريحة. إذا ذكرت المستخدمة شعوراً بالاكتئاب أو التعب، فأعطي الأولوية للدعم العاطفي والتفهم قبل أي نصيحة عملية.",
     }
   });
   const response = await model;
@@ -17,22 +17,26 @@ export const generateHealthInsight = async (query: string, lang: 'en' | 'ar') =>
 };
 
 export const generateSpeech = async (text: string, lang: 'en' | 'ar') => {
-  const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-preview-tts",
-    contents: [{ parts: [{ text: `Say in ${lang === 'en' ? 'English' : 'Arabic'}: ${text}` }] }],
-    config: {
-      responseModalities: [Modality.AUDIO],
-      speechConfig: {
-        voiceConfig: {
-          prebuiltVoiceConfig: { voiceName: 'Kore' }, // Kore is a female voice
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash-preview-tts",
+      contents: [{ parts: [{ text: `Say in ${lang === 'en' ? 'English' : 'Arabic'}: ${text}` }] }],
+      config: {
+        responseModalities: [Modality.AUDIO],
+        speechConfig: {
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName: 'Kore' }, // Kore is a female voice
+          },
         },
       },
-    },
-  });
+    });
 
-  const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
-  if (base64Audio) {
-    return `data:audio/wav;base64,${base64Audio}`;
+    const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+    if (base64Audio) {
+      return `data:audio/wav;base64,${base64Audio}`;
+    }
+  } catch (error) {
+    console.error("TTS Error:", error);
   }
   return null;
 };

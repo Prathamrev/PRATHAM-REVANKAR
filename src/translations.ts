@@ -26,6 +26,13 @@ export const translations = {
     healthCheck: "Monitor Your Stress Levels",
     incomeTipText: "Try Selling Homemade Snacks",
     placeholderSkills: "Baking & Crafts",
+    voiceModeActive: "Voice Mode Active",
+    voiceModeDisabled: "Voice Mode Disabled",
+    listening: "Listening...",
+    speaking: "NAARI is speaking...",
+    profileSettings: "Profile settings coming soon!",
+    noNotifications: "No new notifications",
+    languageChanged: "Language changed to English",
   },
   ar: {
     welcome: "أهلاً بكِ، سارة",
@@ -54,6 +61,13 @@ export const translations = {
     healthCheck: "راقبي مستويات التوتر لديكِ",
     incomeTipText: "جربي بيع الوجبات الخفيفة المنزلية",
     placeholderSkills: "الخبز والحرف اليدوية",
+    voiceModeActive: "وضع الصوت نشط",
+    voiceModeDisabled: "وضع الصوت معطل",
+    listening: "جاري الاستماع...",
+    speaking: "ناري تتحدث...",
+    profileSettings: "إعدادات الملف الشخصي قريباً!",
+    noNotifications: "لا توجد تنبيهات جديدة",
+    languageChanged: "تم تغيير اللغة إلى العربية",
   }
 };
 
