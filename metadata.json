@@ -1,0 +1,5 @@
+{
+  "name": "NAARI AI",
+  "description": "A premium AI-powered lifestyle, safety, and wellness companion for women.",
+  "requestFramePermissions": ["microphone"]
+}
